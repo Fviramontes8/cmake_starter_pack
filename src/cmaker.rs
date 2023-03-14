@@ -29,12 +29,12 @@ fn write_lib_to_root_cmake(content: &mut String, libs: &Vec<String>) -> () {
         let lib: Libs = elem.as_str().to_lowercase().parse().unwrap();
         match lib {
             Libs::OpenCV => {
-                let find_opencv = "\nfind_package(OpenCV REQUIRED)
+                let find_opencv = "\n\nfind_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})";
                 content.push_str(&find_opencv);
             }
             Libs::MPI => {
-                let find_mpi = "\nfind_package(MPI REQUIRED)
+                let find_mpi = "\n\nfind_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})";
                 content.push_str(&find_mpi);
             }
@@ -53,7 +53,7 @@ project({}
         project_name
     );
     write_lib_to_root_cmake(&mut main_cmake_contents, &libs);
-    main_cmake_contents.push_str("\nadd_subdirectory(app)");
+    main_cmake_contents.push_str("\n\nadd_subdirectory(app)");
 
     let mut out_file = fs::File::create("CMakeLists.txt").unwrap();
     out_file.write_all(main_cmake_contents.as_bytes()).unwrap();
@@ -91,13 +91,11 @@ pub fn create_app_cmake(libs: &Vec<String>) -> () {
     }
 
     let mut app_cmake_contents = format!(
-        "
-include_directories(${{PROJECT_SOURCE_DIR}})
+        "include_directories(${{PROJECT_SOURCE_DIR}})
 add_executable(${{PROJECT_NAME}}
     app.cpp
 )
-target_link_libraries(${{PROJECT_NAME}}
-"
+target_link_libraries(${{PROJECT_NAME}}"
     );
     add_app_libs(&mut app_cmake_contents, &libs);
     app_cmake_contents.push_str("\n)");
