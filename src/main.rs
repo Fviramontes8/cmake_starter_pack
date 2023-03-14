@@ -3,23 +3,9 @@ use std::env;
 use std::fs::File;
 use std::io::Write;
 
-enum Libs {
-    OpenCV,
-    ONNX,
-    MPI,
-}
+use libs::Libs;
 
-impl std::str::FromStr for Libs {
-    type Err = String;
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "opencv" => Ok(Libs::OpenCV),
-            "onnx" => Ok(Libs::ONNX),
-            "mpi" => Ok(Libs::MPI),
-            _ => Err(format!("Unknown variant: {}", s)),
-        }
-    }
-}
+pub mod libs;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
