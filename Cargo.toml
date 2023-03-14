@@ -1,5 +1,5 @@
 [package]
-name = "cmake_starter_pack"
+name = "cmaker"
 version = "0.1.0"
 edition = "2021"
 
