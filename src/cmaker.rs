@@ -4,6 +4,7 @@ use std::io::Write;
 use std::path::Path;
 
 enum Libs {
+    BoostProgramOptions,
     OpenCV,
     ONNX,
     MPI,
@@ -13,11 +14,13 @@ impl std::str::FromStr for Libs {
     type Err = String;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
+            "program_options" | "po" => Ok(Libs::BoostProgramOptions),
             "opencv" => Ok(Libs::OpenCV),
             "onnx" => Ok(Libs::ONNX),
             "mpi" => Ok(Libs::MPI),
             _ => Err(format!(
-                "Unknown variant: {}\nopencv, onnx, and mpi are supported",
+                "Unknown variant: {}
+boost program options (program_options), OpenCV (opencv), ONNX (onnx), and MPI (mpi) are supported",
                 s
             )),
         }
@@ -28,6 +31,11 @@ fn write_lib_to_root_cmake(content: &mut String, libs: &Vec<String>) -> () {
     for elem in libs.iter() {
         let lib: Libs = elem.as_str().to_lowercase().parse().unwrap();
         match lib {
+            Libs::BoostProgramOptions => {
+                let find_po = "\n\nfind_package(Boost REQUIRED COMPONENTS program_options)
+include_directories(${Boost_INCLUDE_DIR})";
+                content.push_str(&find_po);
+            }
             Libs::OpenCV => {
                 let find_opencv = "\n\nfind_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})";
@@ -68,6 +76,10 @@ fn add_app_libs(content: &mut String, libs: &Vec<String>) -> () {
     for elem in libs.iter() {
         let lib: Libs = elem.as_str().to_lowercase().parse().unwrap();
         match lib {
+            Libs::BoostProgramOptions => {
+                let po_libs = "\n\tPRIVATE ${Boost_LIBRARIES}";
+                content.push_str(&po_libs);
+            }
             Libs::OpenCV => {
                 let opencv_libs = "\n\tPRIVATE ${OpenCV_LIBS}";
                 content.push_str(&opencv_libs);
