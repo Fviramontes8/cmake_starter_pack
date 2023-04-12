@@ -54,6 +54,8 @@ include_directories(${MPI_INCLUDE_PATH})";
 pub fn create_root_cmake(project_name: &String, libs: &Vec<String>) -> () {
     let mut main_cmake_contents = format!(
         "cmake_minimum_required(VERSION 3.14)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project({}
     VERSION 1.0
     LANGUAGES CXX
