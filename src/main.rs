@@ -14,13 +14,15 @@ struct Args {
     /// Libraries to include in CMake project
     #[arg(short, long)]
     libraries: Vec<String>,
+
+    /// 'Features' to add in a CMake project
+    #[arg(short, long)]
+    features: Vec<String>,
 }
 
 fn main() {
     let args = Args::parse();
 
-    println!("Project name: {}", args.project_name);
-
     create_app_cmake(&args.libraries);
-    create_root_cmake(&args.project_name, &args.libraries);
+    create_root_cmake(&args.project_name, &args.libraries, &args.features);
 }
