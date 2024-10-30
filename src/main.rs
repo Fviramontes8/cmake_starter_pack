@@ -1,7 +1,7 @@
 use clap::Parser;
 
 // Local modules
-use cmaker::{create_app_cmake, create_root_cmake};
+use cmaker::{create_app_cmake, create_clang_format, create_root_cmake};
 pub mod cmaker;
 
 #[derive(Parser, Debug)]
