@@ -93,8 +93,7 @@ pub fn create_root_cmake(project_name: &String, libs: &[String], feats: &[String
 project({}
     VERSION 0.1
     LANGUAGES CXX
-)
-",
+)",
         project_name
     );
     write_feats_to_root_cmake(&mut main_cmake_contents, feats);
@@ -143,8 +142,9 @@ pub fn create_app_cmake(libs: &[String]) {
     let mut app_cmake_contents = String::from(
         "include_directories(${PROJECT_SOURCE_DIR})
 add_executable(${PROJECT_NAME}
-    app.cpp
+    main.cpp
 )
+
 target_link_libraries(${PROJECT_NAME}",
     );
     add_app_libs(&mut app_cmake_contents, libs);
@@ -157,4 +157,15 @@ target_link_libraries(${PROJECT_NAME}",
     let mut running_path = exe_path.to_str().unwrap().to_owned();
     running_path.push_str("/app/CMakeLists.txt");
     println!("CMakelists.txt installed in {}", running_path);
+}
+
+pub fn create_clang_format() {
+    let mut out_file = fs::File::create(".clang-format").unwrap();
+    let clang_format_contents = String::from(
+        "BasedOnStyle: LLVM
+IndentWidth: 4",
+    );
+    out_file
+        .write_all(clang_format_contents.as_bytes())
+        .unwrap();
 }

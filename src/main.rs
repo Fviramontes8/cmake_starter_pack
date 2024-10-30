@@ -25,4 +25,5 @@ fn main() {
 
     create_app_cmake(&args.libraries);
     create_root_cmake(&args.project_name, &args.libraries, &args.features);
+    create_clang_format();
 }
