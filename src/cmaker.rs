@@ -91,7 +91,7 @@ pub fn create_root_cmake(project_name: &String, libs: &[String], feats: &[String
     let mut main_cmake_contents = format!(
         "cmake_minimum_required(VERSION 3.14)
 project({}
-    VERSION 0.1
+    VERSION 0.1.0
     LANGUAGES CXX
 )",
         project_name
