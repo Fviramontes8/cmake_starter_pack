@@ -11,11 +11,11 @@ struct Args {
     #[arg(short, long)]
     project_name: String,
 
-    /// Libraries to include in CMake project
+    /// Libraries to include in CMake project ("program_options", "opencv", "onnx", "mpi")
     #[arg(short, long)]
     libraries: Vec<String>,
 
-    /// 'Features' to add in a CMake project
+    /// 'Features' to add in a CMake project ("clangd", "cpp11", "cpp14", "cpp17", "cpp20", "doxygen")
     #[arg(short, long)]
     features: Vec<String>,
 }
